@@ -4,9 +4,16 @@ import java.util.*;
 public class Main {
 
     public static String inputUser() throws IOException {   // принимает текстовый файл и возвращает его ввиде строки
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String str = reader.readLine();
-        String text = "";
+        String str = "";
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+
+            str = reader.readLine();
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+        StringBuilder text = new StringBuilder();
         byte[] buffer = new byte[1000];
 
         try (FileInputStream fileInputStream = new FileInputStream(str)) {
@@ -17,18 +24,15 @@ public class Main {
                 fileInputStream.read(buffer);
                 String bufferString = new String(buffer, "UTF-8");
 
-                text += bufferString;
+                text.append(bufferString);
             }
 
         } catch (Exception e) {
             System.out.println(e);
 
         }
-        finally {
-            reader.close();
-        }
 
-        return text;
+        return text.toString();
     }
 
     public static String[] delSymbol(String text) {   // преобразует текст в массив
